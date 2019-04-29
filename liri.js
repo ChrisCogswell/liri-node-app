@@ -2,13 +2,11 @@ require("dotenv").config();
 
 var fs = require("fs");
 var axios = require("axios");
-// var keys = require("./keys.js");
+var keys = require("./keys.js");
 var Spotify = require('node-spotify-api');
+var moment = require("moment");
 
-// var spotify = new Spotify({
-//     id: "e148499be3944bda99b5c26ae9f5279c",
-//     secret: "f75187e63b0e4f7b897a22c5eca2cbca"
-//   });
+var spotify = new Spotify(keys.spotify);
 // console.log(spotify);
 
 let action = process.argv[2];
@@ -51,8 +49,8 @@ function movieThis() {
 
     var queryUrl = "http://www.omdbapi.com/?t=" + movieTitle + "&y=&plot=short&apikey=trilogy";
 
-            axios.get(queryUrl).then(
-              function(response) {
+            axios.get(queryUrl)
+                 .then(function(response) {
                 console.log("Title: " + response.data.Title);
                 console.log("Release Year: " + response.data.Year);
                 console.log("Imdb Rating: " + response.data.imdbRating);
@@ -69,37 +67,62 @@ function movieThis() {
 
 function concertThis(){
 
-    var artistName = process.argv[3];
+    var nodeArgs = process.argv;
 
-     axios.get("https://rest.bandsintown.com/artists/" + artistName + "/events?app_id=codingbootcamp")
-        .then(function (response) {
-            for (var i = 0; i < 5; i++) {
+    var artistName = "";
+
+   for (var i = 3; i < nodeArgs.length; i++){
+       if (i > 3 && i < nodeArgs.length){
+           artistName = artistName + "+" + nodeArgs[i];
+       }
+       else {
+           artistName += nodeArgs[i];
+       }
+   }   
+
+    var queryUrl = "https://rest.bandsintown.com/artists/" + artistName + "/events?app_id=codingbootcamp";
+
+     axios.get(queryUrl)
+          .then(function (response) {
+            for (var i = 0; i < 4; i++) {
                 
                 console.log("---------------------------------------------");
+                console.log("Artist name: " + artistName);
                 console.log("Venue name: " + response.data[i].venue.name);
                 console.log("Venue city: " + response.data[i].venue.city);
-                console.log("Concert date: " + response.data[i].datetime);
+                console.log("Concert date: " + moment(response.data[i].datetime).format("MM/DD/YYYY"));
                 console.log("---------------------------------------------");
             }
-        })
-        .catch(function (error) {
-            console.log(error);
         });
-    }
+ }
     
       
 
-
+// <----------------- Spotify song search ------------------->
 
 
 function spotifyThis(){
 
-    spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
+    var nodeArgs = process.argv;
+
+    var songName = "";
+
+   for (var i = 3; i < nodeArgs.length; i++){
+       if (i > 3 && i < nodeArgs.length){
+           songName = songName + " " + nodeArgs[i];
+       }
+       else {
+           songName += nodeArgs[i];
+       }
+   }   
+
+    spotify.search({ type: 'track', query: songName }, function(err, data) {
         if (err) {
           return console.log('Error occurred: ' + err);
         }
-       
-      console.log(data); 
+        console.log("Artist: " + data.tracks.items[0].artists[0].name);
+        console.log("Track name: " + songName);
+
       });
 }
 
