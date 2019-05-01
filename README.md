@@ -8,7 +8,7 @@ Node command line app for searching spotify, omdb and bands in town.
    
 *Search OMDB for movies - example
 
-   -
+   - ![](liri-movie-This.gif)
 
 *Search Bands in Town for concerts – example
 
