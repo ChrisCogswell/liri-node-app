@@ -115,15 +115,21 @@ function spotifyThis(){
            songName += nodeArgs[i];
        }
    }   
+   spotify
+   .search({ type: 'artist,track', query: songName })
+   .then(function(response) {
+     console.log("-----------------------------------------");
+     console.log("Artist: " + response.tracks.items[0].artists[0].name);
+     console.log("Song name: " + response.tracks.items[0].name);
+     console.log("Album: " + response.tracks.items[0].album.name);
+     console.log("Preview link: " + response.tracks.items[0].external_urls.spotify);
+     console.log("-----------------------------------------");
 
-    spotify.search({ type: 'track', query: songName }, function(err, data) {
-        if (err) {
-          return console.log('Error occurred: ' + err);
-        }
-        console.log("Artist: " + data.tracks.items[0].artists[0].name);
-        console.log("Track name: " + songName);
-
-      });
+   })
+   .catch(function(err) {
+     console.log(err);
+   });
+   
 }
 
 
@@ -131,7 +137,13 @@ function doWhat(){
     fs.readFile("random.txt", "utf8", function (error, data) {
 		if (error) {
 			return console.log(error);
-		}
-        console.log(data);
+        }
+        let dataArray = data.split(",");
+        console.log(dataArray[0]);
+        // if (dataArray[0] === "spotify-this"){
+            
+        //   spotifyThis() + dataArray[1];
+        // }
+        console.log(dataArray[1]);
 });
 }
