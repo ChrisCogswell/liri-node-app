@@ -15,3 +15,5 @@ Node command line app for searching spotify, omdb and bands in town.
    - ![](liri-concert-This.gif)
    
 *Search Spotify for songs - example   
+
+   - ![](liri-spotify-This.gif)
