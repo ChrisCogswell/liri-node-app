@@ -8,8 +8,14 @@ Node command line app for searching spotify, omdb and bands in town.
    
 *Search OMDB for movies - example
 
-   -
+   - ![](liri-movie-This.gif)
 
 *Search Bands in Town for concerts – example
 
    - ![](liri-concert-This.gif)
+   
+*Search Spotify for songs - example   
+
+   - ![](liri-spotify-This.gif)
+
+Additionally, you can type "do-what-it-says" to run the doWhat function, which will read the 'random.txt' file and do what it says!
