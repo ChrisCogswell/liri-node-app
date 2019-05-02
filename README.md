@@ -13,3 +13,5 @@ Node command line app for searching spotify, omdb and bands in town.
 *Search Bands in Town for concerts – example
 
    - ![](liri-concert-This.gif)
+   
+*Search Spotify for songs - example   
