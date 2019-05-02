@@ -47,18 +47,26 @@ function movieThis() {
        }
    }   
 
+   if (movieTitle === "") {
+       movieTitle = "Mr. Nobody";
+   }
+
     var queryUrl = "http://www.omdbapi.com/?t=" + movieTitle + "&y=&plot=short&apikey=trilogy";
 
             axios.get(queryUrl)
                  .then(function(response) {
+                console.log("--------------------------------------------------");
                 console.log("Title: " + response.data.Title);
+                console.log("Director: " + response.data.Director);
                 console.log("Release Year: " + response.data.Year);
-                console.log("Imdb Rating: " + response.data.imdbRating);
-                console.log("Rotten Tomatoes Rating: " + response.data.tomatoRating);
+                console.log("Imdb Rating: " + response.data.Ratings[0].Value);
+                console.log("Rotten Tomatoes Rating: " + response.data.Ratings[1].Value);
                 console.log("Country of origin: " + response.data.Country);
                 console.log("Language: " + response.data.Language);
                 console.log("Plot: " + response.data.Plot);
                 console.log("Actors: " + response.data.Actors);
+                console.log("--------------------------------------------------");
+
               }
             );
 }
@@ -73,7 +81,7 @@ function concertThis(){
 
    for (var i = 3; i < nodeArgs.length; i++){
        if (i > 3 && i < nodeArgs.length){
-           artistName = artistName + "+" + nodeArgs[i];
+           artistName = artistName + " " + nodeArgs[i];
        }
        else {
            artistName += nodeArgs[i];
@@ -115,6 +123,11 @@ function spotifyThis(){
            songName += nodeArgs[i];
        }
    }   
+
+   if (songName === "") {
+       songName = "The Sign:Ace of Base";
+   }
+
    spotify
    .search({ type: 'artist,track', query: songName })
    .then(function(response) {
@@ -132,6 +145,7 @@ function spotifyThis(){
    
 }
 
+//<--------------- Do what it says function ------------------>
 
 function doWhat(){
     fs.readFile("random.txt", "utf8", function (error, data) {
@@ -139,11 +153,21 @@ function doWhat(){
 			return console.log(error);
         }
         let dataArray = data.split(",");
-        console.log(dataArray[0]);
-        // if (dataArray[0] === "spotify-this"){
-            
-        //   spotifyThis() + dataArray[1];
-        // }
-        console.log(dataArray[1]);
+
+        switch (dataArray[0]) {
+            case "movie-this":
+            movieThis(dataArray[1]);
+            break;
+
+            case "concert-this":
+            concertThis(dataArray[1]);
+            break;
+
+            case "spotify-this":
+            spotifyThis(dataArray[1]);
+            break;
+        }
+
+       
 });
 }
